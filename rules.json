@@ -1,0 +1,62 @@
+<!-- Rules Section -->
+<section id="rules" class="max-w-4xl mx-auto px-4 py-16">
+    
+    <div class="poetry-card rounded-3xl p-8 md:p-10">
+        
+        <div class="text-center mb-10">
+            <h2 class="text-4xl text-[#b8875c] font-title mb-3">
+                वेबसाइट नियम
+            </h2>
+
+            <p class="text-slate-500 font-marathi">
+                कृपया वेबसाइट वापरताना खालील नियमांचे पालन करा.
+            </p>
+        </div>
+
+        <div class="space-y-5 text-slate-300 font-marathi poetry-text">
+
+            <div class="bg-[#111] border border-[#1f1f1f] rounded-2xl p-5">
+                <h3 class="text-[#b8875c] text-xl mb-2 font-semibold">
+                    १. साहित्याचा आदर करा
+                </h3>
+
+                <p>
+                    या वेबसाइटवरील सर्व कविता आणि लिखाण लेखकाच्या भावनांशी जोडलेले आहेत.
+                    कृपया त्यांचा आदर राखा.
+                </p>
+            </div>
+
+            <div class="bg-[#111] border border-[#1f1f1f] rounded-2xl p-5">
+                <h3 class="text-[#b8875c] text-xl mb-2 font-semibold">
+                    २. परवानगीशिवाय कॉपी करू नका
+                </h3>
+
+                <p>
+                    वेबसाइटवरील साहित्य परवानगीशिवाय इतरत्र वापरणे किंवा स्वतःच्या नावाने शेअर करणे योग्य नाही.
+                </p>
+            </div>
+
+            <div class="bg-[#111] border border-[#1f1f1f] rounded-2xl p-5">
+                <h3 class="text-[#b8875c] text-xl mb-2 font-semibold">
+                    ३. सभ्य भाषा वापरा
+                </h3>
+
+                <p>
+                    प्रतिक्रिया किंवा संदेश पाठवताना सभ्य आणि आदरयुक्त भाषा वापरा.
+                </p>
+            </div>
+
+            <div class="bg-[#111] border border-[#1f1f1f] rounded-2xl p-5">
+                <h3 class="text-[#b8875c] text-xl mb-2 font-semibold">
+                    ४. भावना जपा
+                </h3>
+
+                <p>
+                    प्रत्येक कविता ही एका भावनेतून जन्माला आलेली असते.
+                    कृपया तिची खिल्ली उडवू नका.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
