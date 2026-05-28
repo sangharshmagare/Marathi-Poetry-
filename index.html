@@ -1,0 +1,271 @@
+<!DOCTYPE html><html lang="mr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>संघर्ष मगरे | Marathi Poetry</title><script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Mukta:wght@400;500;600;700;800&family=Tiro+Devanagari+Marathi&display=swap" rel="stylesheet">
+
+<script>
+    tailwind.config = {
+        theme: {
+            extend: {
+                fontFamily: {
+                    sans: ['Poppins', 'sans-serif'],
+                    marathi: ['Mukta', 'sans-serif'],
+                    title: ['Tiro Devanagari Marathi', 'serif'],
+                }
+            }
+        }
+    }
+</script>
+
+<style>
+    body {
+        font-family: 'Mukta', sans-serif;
+        background: #030303;
+        background-attachment: fixed;
+        overflow-x: hidden;
+        color: #f5f5f5;
+    }
+
+    .bg-grid {
+        background-image:
+            linear-gradient(rgba(255,255,255,0.005) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.005) 1px, transparent 1px);
+        background-size: 40px 40px;
+    }
+
+    .ambient-blur {
+        filter: blur(120px);
+        opacity: 0.08;
+        pointer-events: none;
+    }
+
+    .poetry-card {
+        background: rgba(24,24,24,0.8);
+        border: 1px solid rgba(184,135,92,0.10);
+        backdrop-filter: blur(10px);
+        transition: all 0.4s ease;
+    }
+
+    .poetry-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(184,135,92,0.25);
+        box-shadow: none;
+    }
+
+    .poetry-text {
+        line-height: 2.2;
+        letter-spacing: 0.3px;
+    }
+
+    .glow-text {
+        text-shadow: 0 0 20px rgba(184,135,92,0.10);
+    }
+
+    .classic-border {
+        border: 1px solid rgba(255,255,255,0.05);
+        position: relative;
+        background: rgba(22,22,22,0.75);
+    }
+
+    .gold-line {
+        width: 60px;
+        height: 2px;
+        background: rgba(212,163,115,0.7);
+        margin: 0 auto;
+    }
+
+    .hero-overlay {
+        background: transparent;
+    }
+        background: radial-gradient(circle at top, rgba(184,135,92,0.05), transparent 60%);
+    }
+</style>
+
+</head><body class="bg-grid relative min-h-screen selection:bg-[#d4a373]/30"><!-- Ambient glow removed for darker aesthetic -->
+<!-- Ambient glow removed for darker aesthetic -->
+
+<header class="sticky top-0 z-50 backdrop-blur-xl bg-black/50 border-b border-[#2a2a2a]">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+
+        <h1 class="text-2xl md:text-3xl text-[#b8875c] font-bold tracking-wide font-title">
+            Marathi Poetry
+        </h1>
+
+        <nav class="hidden md:flex gap-8 text-sm text-slate-300 font-medium">
+            <a href="#home" class="hover:text-[#b8875c] transition">गृह</a>
+            <a href="#poems" class="hover:text-[#b8875c] transition">कविता</a>
+            <a href="#author" class="hover:text-[#b8875c] transition">लेखक</a>
+            <a href="#contact" class="hover:text-[#b8875c] transition">संपर्क</a>
+        </nav>
+
+        <a href="#contact" onclick="document.getElementById('contact').scrollIntoView({ behavior: 'smooth' }); return false;" class="px-5 py-2 rounded-full border border-[#b8875c]/20 text-[#b8875c] hover:bg-[#d4a373]/10 transition text-sm">
+            संवाद साधा
+        </a>
+    </div>
+</header>
+
+<section id="home" class="relative py-28 md:py-40 text-center overflow-hidden hero-overlay">
+    <div class="max-w-5xl mx-auto px-4 relative z-10">
+
+        <h1 class="text-5xl md:text-7xl font-bold leading-tight text-white font-title mb-8 glow-text">
+            संघर्ष मगरे
+            <br>
+            <span class="text-[#b8875c] text-3xl md:text-5xl">
+                शब्द फक्त लिहीत नाही…<br>
+                जगतो मी त्यांना.
+            </span>
+        </h1>
+
+        <p class="text-slate-400 max-w-2xl mx-auto text-lg poetry-text mb-10">
+            भावना, आठवणी, प्रेम, विरह आणि आयुष्याच्या प्रत्येक वळणावर उमटलेले शब्द…
+            हाच माझ्या कवितांचा प्रवास.
+        </p>
+
+        <div class="flex flex-col sm:flex-row justify-center gap-4">
+            <a href="#poems" onclick="document.getElementById('poems').scrollIntoView({ behavior: 'smooth' }); return false;" class="px-8 py-4 rounded-2xl bg-[#b8875c] hover:bg-[#a87448] text-black font-bold transition-all hover:scale-105">
+                कविता वाचा
+            </a>
+
+            <a href="#author" onclick="document.getElementById('author').scrollIntoView({ behavior: 'smooth' }); return false;" class="px-8 py-4 rounded-2xl border border-[#2f2f2f] bg-[#141414] hover:border-[#b8875c]/20 transition-all hover:scale-105">
+                माझ्याबद्दल
+            </a>
+        </div>
+
+        <div class="mt-16">
+            <p class="text-slate-500 text-xl font-marathi leading-loose max-w-2xl mx-auto poetry-text italic">
+                “काही भावना बोलता येत नाहीत…<br>
+                म्हणून कविता जन्म घेतात.”
+            </p>
+        </div>
+    </div>
+</section>
+
+<section class="max-w-4xl mx-auto px-4 pb-12">
+    <div class="poetry-card rounded-3xl p-8 text-center">
+        <p id="quote-text" class="text-2xl text-slate-200 poetry-text">
+            “तुझ्या आठवणींचा प्रवास संपता संपत नाही…”
+        </p>
+
+        <button onclick="generateThought()"
+            class="mt-8 px-6 py-3 rounded-full border border-[#b8875c]/20 text-[#b8875c] hover:bg-[#d4a373]/10 transition">
+            पुढील विचार
+        </button>
+    </div>
+</section>
+
+<section id="poems" class="max-w-5xl mx-auto px-4 py-20">
+
+    <div class="text-center mb-14">
+        <div class="gold-line mb-5"></div>
+        <h2 class="text-5xl font-title text-[#b8875c] mb-4">माझ्या कविता</h2>
+        <p class="text-slate-400">मनातून उतरलेले काही शब्द…</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-8">
+
+        <a href="Page1.html" target="_blank"
+            class="poetry-card rounded-3xl p-8 block hover:bg-[#171717]">
+            <div class="flex justify-between items-center">
+                <h3 class="text-2xl text-white font-semibold">साधेपणाची मोहिनी</h3>
+                <i class="fa-solid fa-book-open text-[#b8875c]"></i>
+            </div>
+        </a>
+
+        <a href="https://sites.google.com/view/marathipoetry/saundarya" target="_blank"
+            class="poetry-card rounded-3xl p-8 block hover:bg-[#171717]">
+            <div class="flex justify-between items-center">
+                <h3 class="text-2xl text-white font-semibold">सौंदर्य</h3>
+                <i class="fa-solid fa-book-open text-[#b8875c]"></i>
+            </div>
+        </a>
+
+        <a href="https://sites.google.com/view/marathipoetry/galavrchi-khali" target="_blank"
+            class="poetry-card rounded-3xl p-8 block hover:bg-[#171717]">
+            <div class="flex justify-between items-center">
+                <h3 class="text-2xl text-white font-semibold">गालावरची खळी</h3>
+                <i class="fa-solid fa-book-open text-[#b8875c]"></i>
+            </div>
+        </a>
+
+        <a href="https://sites.google.com/view/marathipoetry/kavita-mhanje-kay" target="_blank"
+            class="poetry-card rounded-3xl p-8 block hover:bg-[#171717]">
+            <div class="flex justify-between items-center">
+                <h3 class="text-2xl text-white font-semibold">कविता म्हणजे काय?</h3>
+                <i class="fa-solid fa-book-open text-[#b8875c]"></i>
+            </div>
+        </a>
+
+    </div>
+</section>
+
+<section id="author" class="max-w-5xl mx-auto px-4 py-16">
+
+    <div class="poetry-card rounded-[2rem] p-10 md:p-14 flex flex-col md:flex-row items-center gap-10">
+
+        <img src="https://i.postimg.cc/p9ypnRk7/profile-(4).png"
+            class="w-40 h-40 rounded-full border-4 border-[#d4a373] object-cover shadow-2xl">
+
+        <div>
+            <h2 class="text-5xl text-[#b8875c] font-title mb-3">संघर्ष मगरे</h2>
+
+            <p class="text-slate-300 text-lg poetry-text">
+                मी माझ्या मनातलं लिहितो… जसं आहे तसं.
+                भावनांची गुंफण, शब्दांचा सुसंवाद आणि मनाचा आरसा म्हणजे माझं लिखाण.
+                कविता ही माझ्यासाठी फक्त शब्दांची रचना नाही,
+                तर जगलेल्या क्षणांची सावली आहे.
+            </p>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="max-w-4xl mx-auto px-4 py-20">
+
+    <div class="poetry-card rounded-3xl p-10">
+
+        <div class="text-center mb-10">
+            <h2 class="text-4xl text-[#b8875c] font-title mb-3">संवाद साधा</h2>
+            <p class="text-slate-400">तुमच्या प्रतिक्रिया नक्की कळवा.</p>
+        </div>
+
+        <form class="space-y-6 max-w-2xl mx-auto">
+
+            <input type="text" placeholder="तुमचे नाव"
+                class="w-full bg-[#111] border border-[#2a2a2a] rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d4a373]/50">
+
+            <input type="email" placeholder="ईमेल"
+                class="w-full bg-[#111] border border-[#2a2a2a] rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d4a373]/50">
+
+            <textarea rows="5" placeholder="तुमचा निरोप..."
+                class="w-full bg-[#111] border border-[#2a2a2a] rounded-2xl px-5 py-4 focus:outline-none focus:border-[#d4a373]/50"></textarea>
+
+            <button type="submit"
+                class="w-full bg-[#b8875c] hover:bg-[#a87448] text-black py-4 rounded-2xl font-bold transition-all hover:scale-[1.02]">
+                निरोप पाठवा
+            </button>
+        </form>
+    </div>
+</section>
+
+<footer class="text-center text-slate-500 text-sm border-t border-[#2a2a2a] py-12 bg-black/40 font-marathi mt-10 backdrop-blur-xl">
+    <p>© 2026 संघर्ष मगरे — शब्दांच्या दुनियेतला एक प्रवास.</p>
+</footer>
+
+<script>
+    function generateThought() {
+        const thoughts = [
+            '“आठवणींच्या पावसात अजूनही मन भिजतं...”',
+            '“काही लोक भेटतात आणि कविता जन्म घेतात.”',
+            '“तुझ्या नजरेत हरवणं हीच माझी सवय झालीये...”',
+            '“मन जपून ठेवलेल्या भावनांनाच कविता म्हणतात.”'
+        ];
+
+        document.getElementById('quote-text').innerText = thoughts[Math.floor(Math.random() * thoughts.length)];
+    }
+</script>
+
+</body>
+                 </html>
