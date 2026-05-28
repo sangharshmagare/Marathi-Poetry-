@@ -1,0 +1,907 @@
+<!DOCTYPE html>
+<html lang="mr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>गालावरची खळी - संघर्ष मगरे</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts: Mukta (For Marathi), Poppins, & Teko (For premium headers) -->
+    <link href="https://fonts.googleapis.com/css2?family=Mukta:wght@300;400;600;700;800&family=Poppins:wght@300;400;600;700&family=Teko:wght@500;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        marathi: ['Mukta', 'sans-serif'],
+                        sans: ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        romantic: {
+                            50: '#fff1f2',
+                            100: '#ffe4e6',
+                            500: '#f43f5e',
+                            600: '#e11d48',
+                            700: '#be123c',
+                            900: '#881337',
+                            950: '#4c0519'
+                        },
+                        gold: {
+                            100: '#fef3c7',
+                            500: '#f59e0b',
+                            600: '#d97706',
+                            700: '#b45309'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Mukta', 'Poppins', sans-serif;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        /* पारंपारिक सोनेरी कलाकुसर आणि लकाकी (Golden Zari Shimmer) */
+        .zari-border {
+            border: double 4px transparent;
+            background-image: linear-gradient(white, white), linear-gradient(to right, #d97706, #f59e0b, #be123c, #d97706);
+            background-origin: border-box;
+            background-clip: padding-box, border-box;
+        }
+        .dark .zari-border {
+            background-image: linear-gradient(#0f172a, #0f172a), linear-gradient(to right, #b45309, #f59e0b, #e11d48, #b45309);
+        }
+        /* हार्ट आणि हास्य पॉप अ‍ॅनिमेशन */
+        .heart-pop {
+            animation: heartPop 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+            position: absolute;
+            pointer-events: none;
+        }
+        @keyframes heartPop {
+            0 { transform: translate(-50%, -50%) scale(0) rotate(0deg); opacity: 0; }
+            50 { transform: translate(-50%, -50%) scale(1.8) rotate(15deg); opacity: 0.9; }
+            100 { transform: translate(-50%, -50%) scale(1) rotate(-10deg); opacity: 0; }
+        }
+        /* ओळ हायलाईट करणे */
+        .active-line {
+            color: #f43f5e !important;
+            transform: scale(1.03);
+            text-shadow: 0 0 12px rgba(244, 63, 94, 0.3);
+            transition: all 0.3s ease;
+        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #fecdd3;
+            border-radius: 10px;
+        }
+        .dark ::-webkit-scrollbar-thumb {
+            background: #881337;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-rose-50 via-amber-50 to-rose-100 dark:from-romantic-950 dark:via-slate-950 dark:to-slate-900 text-slate-800 dark:text-slate-100 min-h-screen transition-colors duration-500 relative pb-12">
+
+    <!-- पारदर्शक कॅनव्हास (Interactive Particle Effect for petals, flowers, rain and gold dust) -->
+    <canvas id="particleCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+    <!-- मुख्य कंटेनर -->
+    <div class="relative z-10 max-w-2xl mx-auto px-4 pt-6 md:pt-12">
+
+        <!-- टॉप हेडर कंट्रोल्स (Home, Theme & Audio/Share) -->
+        <div class="flex justify-between items-center mb-6">
+            <div class="flex items-center gap-2 sm:gap-3">
+                <!-- मुख्य पृष्ठ (Home) बटन -->
+                <a href="https://sites.google.com/view/marathipoetry/home" class="px-4 py-2 rounded-full bg-white dark:bg-slate-900 shadow-md hover:shadow-lg text-rose-600 dark:text-rose-400 font-semibold text-sm flex items-center gap-2 transition-all duration-300 hover:scale-105 active:scale-95 border border-rose-100 dark:border-romantic-900" title="मुख्य पृष्ठावर जा">
+                    <i class="fa-solid fa-house"></i> <span class="hidden sm:inline">मुख्य पृष्ठ</span>
+                </a>
+
+                <!-- थीम टोगल -->
+                <button onclick="toggleDarkMode()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-900 shadow-md hover:shadow-lg flex items-center justify-center text-amber-500 dark:text-amber-300 transition-all duration-300 transform hover:scale-110 active:scale-95 border border-rose-100 dark:border-romantic-900" id="themeToggleBtn" title="थिम बदला">
+                    <i id="themeIcon" class="fas fa-sun text-lg"></i>
+                </button>
+                <!-- ध्वनी प्रभाव टोगल -->
+                <button onclick="toggleSoundEffects()" class="w-10 h-10 rounded-full bg-white dark:bg-slate-900 shadow-md hover:shadow-lg flex items-center justify-center text-rose-500 transition-all duration-300 transform hover:scale-110 active:scale-95 border border-rose-100 dark:border-romantic-900" id="soundToggleBtn" title="छुनछुन ध्वनी सुरु/बंद">
+                    <i id="soundIcon" class="fas fa-bell text-lg"></i>
+                </button>
+            </div>
+            
+            <div class="flex items-center gap-2">
+                <!-- AI काव्यवाचक बटन -->
+                <button onclick="readPoem()" id="speakBtn" class="px-4 py-2 rounded-full bg-white dark:bg-slate-900 shadow-md hover:shadow-lg text-rose-600 dark:text-rose-400 font-semibold text-sm flex items-center gap-2 transition-all duration-300 hover:scale-105 active:scale-95 border border-rose-100 dark:border-romantic-950" title="कविता ऐका">
+                    <i class="fa-solid fa-volume-high animate-pulse" id="voiceIcon"></i> <span id="voiceBtnText">कविता ऐका (AI)</span>
+                </button>
+
+                <button onclick="openShareModal()" class="px-4 py-2 rounded-full bg-white dark:bg-slate-900 shadow-md hover:shadow-lg text-slate-600 dark:text-slate-300 font-medium text-sm flex items-center gap-2 transition-all duration-300 hover:scale-105 active:scale-95 border border-rose-100 dark:border-romantic-900">
+                    <i class="fas fa-share-alt text-rose-500"></i> शेअर
+                </button>
+            </div>
+        </div>
+
+        <!-- मुख्य ब्लॉग कार्ड (Traditional Theme with Zari Border) -->
+        <article class="bg-white/90 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl shadow-2xl border-4 zari-border overflow-hidden transform transition-all duration-300">
+            
+            <!-- अव्वल हायलाईट (प्रस्तावना) -->
+            <div class="p-6 md:p-8 border-b border-rose-100 dark:border-romantic-950 bg-gradient-to-b from-rose-50/50 to-transparent dark:from-romantic-900/10">
+                <!-- प्रस्तावना -->
+                <div class="relative bg-slate-900 dark:bg-slate-950 text-white p-5 rounded-2xl shadow-lg border-l-4 border-rose-500 overflow-hidden">
+                    <div class="absolute right-3 top-2 opacity-10 text-7xl font-serif text-rose-500">“</div>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-rose-400 mb-1">💌 रसिक मन</h3>
+                    <p class="text-sm md:text-base italic leading-relaxed text-rose-100">
+                        "पैठणीचा पदर, पैंजणांची छुनछुन आणि गालावर उमलणारी ती खळी... काळजाचा ठोका चुकवणारे अप्रतिम वर्णन!" 🌸
+                    </p>
+                </div>
+            </div>
+
+            <!-- कव्हर फोटो (Theme: Traditional Indian Beauty and Smile) -->
+            <div class="px-6 md:px-8 mt-4">
+                <div class="relative group rounded-2xl overflow-hidden shadow-lg aspect-[16/10] bg-slate-100 dark:bg-slate-800" id="imageWrapper">
+                    <img 
+                        src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1000&q=80" 
+                        alt="गालावरची खळी आणि पैठणी" 
+                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                        id="coverImage"
+                    >
+                    <div class="absolute inset-0 bg-gradient-to-t from-slate-950/70 via-transparent to-transparent"></div>
+                    <div class="absolute bottom-3 left-3 bg-rose-950/80 backdrop-blur-sm text-amber-300 text-xs px-3 py-1.5 rounded-full border border-amber-500/30 flex items-center gap-1.5">
+                        <i class="fa-solid fa-heart animate-ping text-[10px]"></i> साजिरी आणि लाजिरी
+                    </div>
+                </div>
+            </div>
+
+            <!-- कविता क्षेत्र (Double-tap to like) -->
+            <div class="relative p-6 md:p-8 text-center select-none cursor-pointer" id="poemContainer" title="डबल-टॅप करून प्रेम व्यक्त करा!">
+                
+                <!-- तरंगणारे हार्ट अ‍ॅनिमेशन कंटेनर -->
+                <div id="heartContainer" class="absolute inset-0 pointer-events-none z-20"></div>
+
+                <div class="flex justify-center items-center gap-2 mb-2">
+                    <span class="text-amber-500 text-2xl animate-spin" style="animation-duration: 6s;">❃</span>
+                    <span class="text-rose-500 text-3xl">🥀</span>
+                    <span class="text-amber-500 text-2xl animate-spin" style="animation-duration: 6s;">❃</span>
+                </div>
+
+                <h1 id="poemTitle" class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-rose-600 via-pink-600 to-amber-500 dark:from-rose-400 dark:via-pink-400 dark:to-amber-300 mb-8 tracking-wide drop-shadow-sm font-marathi">
+                    गालावरची खळी
+                </h1>
+
+                <!-- ओळी -->
+                <div id="poemContent" class="space-y-8 text-xl md:text-2xl text-slate-700 dark:text-slate-200 font-marathi leading-relaxed px-2 max-w-xl mx-auto">
+                    
+                    <p class="poem-line cursor-pointer border-b border-rose-100/20 pb-4 transition-all duration-300 hover:text-rose-600 dark:hover:text-rose-400" data-line="१">
+                        ओठांवरती लाली तुझ्या, गालावरती <span class="text-rose-600 dark:text-rose-400 font-bold underline decoration-wavy decoration-rose-400">खळी गं</span>...
+                    </p>
+
+                    <p class="poem-line border-b border-rose-100/20 pb-4 transition-all duration-300 hover:text-rose-600 dark:hover:text-rose-400" data-line="२">
+                        <span onclick="playAnkletSound(); event.stopPropagation();" class="inline-flex items-center gap-1 cursor-pointer bg-amber-100 dark:bg-amber-950/40 text-amber-800 dark:text-amber-300 px-2.5 py-0.5 rounded-full hover:scale-105 active:scale-95 border border-amber-300/40 transition-all font-semibold shadow-sm" title="इथे क्लिक करा आणि आवाज ऐका!">
+                            <i class="fa-solid fa-bell text-xs animate-bounce"></i> पैंजणाची छुनछुन
+                        </span> तुझी, काळजाची धडधड वाढवते,<br>
+                        तू रानातून चालताना, लाजते जणू उमलती कळी,<br>
+                        दूरून तू दिसली तरी, काळजाच <span class="text-sky-600 dark:text-sky-400 font-bold">पाणी पाणी होतय गं</span>.
+                    </p>
+
+                    <p class="poem-line cursor-pointer border-b border-rose-100/20 pb-4 transition-all duration-300 hover:text-rose-600 dark:hover:text-rose-400" data-line="३">
+                        ओठांवरती लाली तुझ्या, गालावरती <span class="text-rose-600 dark:text-rose-400 font-bold">खळी गं</span>...
+                    </p>
+
+                    <p class="poem-line border-b border-rose-100/20 pb-4 transition-all duration-300 hover:text-rose-600 dark:hover:text-rose-400" data-line="४" onmouseenter="triggerHeavyRain(true)" onmouseleave="triggerHeavyRain(false)">
+                        तुझी साधी <span class="text-emerald-600 dark:text-emerald-400 font-semibold border-b border-dashed border-emerald-500/50">पैठणी सुद्धा</span>, काळजाला वेड लावते,<br>
+                        तुझ्या पदराचा वारा, मनाला गारवा देऊन जाते,<br>
+                        तू नुसती हसलीस तरी, इथं 
+                        <span onclick="playRainSound(); event.stopPropagation();" class="inline-flex items-center gap-1 cursor-pointer bg-sky-100 dark:bg-sky-950/40 text-sky-800 dark:text-sky-300 px-2.5 py-0.5 rounded-full hover:scale-105 active:scale-95 border border-sky-300/40 transition-all font-semibold shadow-sm" title="पावसाचा नाद ऐका!">
+                            <i class="fa-solid fa-cloud-showers-water text-xs animate-bounce"></i> पाऊस थेंबा थेंबात नाचतोय गं
+                        </span>.
+                    </p>
+
+                    <p class="poem-line cursor-pointer border-b border-rose-100/20 pb-4 transition-all duration-300 hover:text-rose-600 dark:hover:text-rose-400" data-line="५">
+                        ओठांवरती लाली तुझ्या, गालावरती <span class="text-rose-600 dark:text-rose-400 font-bold">खळी गं</span>...
+                    </p>
+
+                    <p class="poem-line border-b border-rose-100/20 pb-4 transition-all duration-300 hover:text-rose-600 dark:hover:text-rose-400" data-line="६">
+                        केसात माळलाय <span class="text-amber-700 dark:text-amber-400 font-semibold bg-amber-50 dark:bg-slate-950/50 px-2 rounded-lg">गजरा</span>, की काळजाला पडलाय वेढा,<br>
+                        नजरेचा बाण तुझा, काळजाच्या आरपार जातो,<br>
+                        तू नुसती वळून बघितलीस ना, की इथं <span class="text-rose-600 dark:text-rose-400 font-bold">वाघाचं पार मांजर होतोया गं</span>.
+                    </p>
+
+                    <p class="poem-line cursor-pointer transition-all duration-300 hover:text-rose-600 dark:hover:text-rose-400" data-line="७">
+                        ओठांवरती लाली तुझ्या, गालावरती <span class="text-rose-600 dark:text-rose-400 font-bold">खळी गं</span>...
+                    </p>
+                </div>
+
+                <!-- लेखक स्वाक्षरी -->
+                <div class="mt-10 text-right pr-6 text-rose-500 dark:text-rose-400 font-semibold italic text-lg font-marathi">
+                    — संघर्ष मगरे ✍️
+                </div>
+            </div>
+
+            <!-- लाईक बटन आणि काउंट -->
+            <div class="px-6 pb-6 text-center border-b border-rose-100 dark:border-romantic-950">
+                <button id="likeBtn" onclick="toggleLike()" class="group relative px-8 py-3 rounded-full bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold text-base flex items-center gap-3 mx-auto transition-all duration-300 hover:scale-105 active:scale-95 shadow-md border border-rose-100 dark:border-romantic-900/50">
+                    <span id="heartIcon" class="text-slate-400 group-hover:scale-125 transition-transform duration-300">
+                        <i class="fa-solid fa-heart text-xl text-rose-500"></i>
+                    </span>
+                    <span id="likeText">आवडून गेलं (Like)</span>
+                    <span id="likeCountBadge" class="bg-rose-600 text-white text-xs px-2.5 py-0.5 rounded-full ml-1 font-sans">812</span>
+                </button>
+                <p class="text-[11px] text-slate-400 dark:text-slate-500 mt-3"><i class="fa-solid fa-circle-info"></i> कविता किंवा फोटोवर कुठेही दोनदा टॅप (Double tap) करून प्रेम व्यक्त करा!</p>
+            </div>
+
+            <!-- सुंदर सारांश -->
+            <div class="p-6 md:p-8 bg-rose-50/30 dark:bg-slate-900/50">
+                <div class="bg-amber-50/60 dark:bg-slate-950/40 p-5 rounded-2xl border border-amber-100/50 dark:border-romantic-900/30">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400 mb-1">🐚 सारांश</h3>
+                    <p class="text-sm md:text-base italic leading-relaxed text-slate-600 dark:text-slate-300">
+                        "पैठणीची सुंदर मोहिनी, नाजूक पैंजणांची नादवती छुनछुन आणि त्या लाघवी हसण्यातून उमलणारी गालावरची खळी... ही कविता अस्सल ग्रामीण आणि घरंदाज प्रेमाचे अतिशय मोहक आणि रोमँटिक रूप उलगडते."
+                    </p>
+                </div>
+            </div>
+        </article>
+
+        <!-- लेखक परिचय (Author Profile Section) -->
+        <section id="author" class="mt-8 bg-slate-950 text-white rounded-3xl shadow-2xl border border-rose-500/30 overflow-hidden relative group">
+            <!-- Decorative glowing blur -->
+            <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-rose-500/10 rounded-full blur-3xl pointer-events-none transition-all group-hover:bg-rose-500/20"></div>
+            
+            <div class="p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 md:gap-10 text-center md:text-left relative z-10">
+                <img src="https://i.postimg.cc/p9ypnRk7/profile-(4).png" alt="Sangharsh Magare" class="w-40 h-40 md:w-48 md:h-48 rounded-full border-4 border-rose-500 shadow-2xl object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300&q=80'">
+                <div class="flex-1">
+                    <h2 class="text-4xl font-bold text-rose-400 mb-1" style="font-family: 'Teko', sans-serif; tracking-wide;">Sangharsh Magare</h2>
+                    <p class="text-slate-400 mb-4 font-semibold text-xs uppercase tracking-wider">Founder, MH20VLOGGER</p>
+                    <p class="text-slate-300 text-lg leading-relaxed mb-6 font-marathi">
+                        मी माझ्या मनातलं लिहितो… जसं आहे तसं.
+                    </p>
+                    
+                    <div class="mt-4 pt-4 border-t border-slate-800">
+                        <p class="text-rose-500 font-bold mb-3 text-sm flex items-center justify-center md:justify-start gap-2" style="font-family: 'Poppins', sans-serif;">
+                            <i class="fa-solid fa-feather-pointed"></i> माझे इतर साहित्य वाचा:
+                        </p>
+                        <ul class="space-y-3 text-left inline-block md:block" style="font-family: 'Poppins', sans-serif;">
+                            <li>
+                                <a href="https://mh20vlogger.blogspot.com/2026/04/blog-post_07.html" target="_blank" class="text-slate-200 hover:text-rose-400 hover:translate-x-1 underline decoration-rose-500/30 hover:decoration-rose-400 inline-flex items-center gap-1 transition-all">
+                                    • हिरवा शालू आणि तुझी आस 🍃
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://mh20vlogger.blogspot.com/2026/04/blog-post_09.html" target="_blank" class="text-slate-200 hover:text-rose-400 hover:translate-x-1 underline decoration-rose-500/30 hover:decoration-rose-400 inline-flex items-center gap-1 transition-all">
+                                    • प्रतीक्षेची ओहोटी 🌊
+                                </a>
+                            </li>
+                            <li>
+                                <a href="https://mh20vlogger.blogspot.com/2026/04/blog-post.html" target="_blank" class="text-slate-200 hover:text-rose-400 hover:translate-x-1 underline decoration-rose-500/30 hover:decoration-rose-400 inline-flex items-center gap-1 transition-all">
+                                    • साधेपणाची मोहिनी 🌸
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- रसिक प्रतिक्रिया विभाग (Interactive Comments Box) -->
+        <section class="mt-8 bg-white/90 dark:bg-slate-900/95 backdrop-blur-md rounded-3xl p-6 md:p-8 shadow-xl border border-rose-100/40 dark:border-romantic-900/40">
+            <h3 class="text-xl font-bold mb-4 flex items-center gap-2 text-slate-800 dark:text-slate-100">
+                <i class="fa-regular fa-comments text-rose-500"></i> रसिक प्रेक्षकांच्या प्रतिक्रिया
+            </h3>
+            
+            <!-- कमेंट फॉर्म -->
+            <form onsubmit="handleComment(event)" class="space-y-4 mb-6">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <input 
+                        type="text" 
+                        id="commenterName" 
+                        placeholder="तुमचे नाव..." 
+                        required
+                        class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-rose-500 focus:outline-none text-sm"
+                    >
+                    <div class="flex gap-2">
+                        <button type="button" onclick="insertEmoji('❤️')" class="px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-rose-950 rounded-xl text-lg transition-colors">❤️</button>
+                        <button type="button" onclick="insertEmoji('✨')" class="px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-rose-950 rounded-xl text-lg transition-colors">✨</button>
+                        <button type="button" onclick="insertEmoji('🌹')" class="px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-rose-950 rounded-xl text-lg transition-colors">🌹</button>
+                        <button type="button" onclick="insertEmoji('👌')" class="px-3 py-2 bg-slate-100 dark:bg-slate-800 hover:bg-rose-100 dark:hover:bg-rose-950 rounded-xl text-lg transition-colors">👌</button>
+                    </div>
+                </div>
+                <div>
+                    <textarea 
+                        id="commentText" 
+                        rows="3" 
+                        placeholder="कविता कशी वाटली? नक्की लिहा..." 
+                        required
+                        class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-950 text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-rose-500 focus:outline-none text-sm"
+                    ></textarea>
+                </div>
+                <div class="flex justify-end">
+                    <button 
+                        type="submit" 
+                        class="px-6 py-2.5 bg-gradient-to-r from-rose-500 to-amber-500 text-white font-semibold rounded-xl shadow-md hover:shadow-lg hover:from-rose-600 hover:to-amber-600 transition-all duration-300 transform active:scale-95 text-sm flex items-center gap-2"
+                    >
+                        <i class="fa-regular fa-paper-plane"></i> प्रतिक्रिया पाठवा
+                    </button>
+                </div>
+            </form>
+
+            <!-- कमेंट्सची यादी -->
+            <div class="border-t border-rose-100 dark:border-romantic-950 pt-4">
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3">सर्व प्रतिक्रिया (<span id="commentCount">३</span>)</h4>
+                <div id="commentsWrapper" class="space-y-4 max-h-[300px] overflow-y-auto pr-2">
+                    <!-- येथे कमेंट्स रेंडर होतील -->
+                </div>
+            </div>
+        </section>
+
+        <!-- कॉपीराइट फुटर -->
+        <footer class="mt-8 text-center text-slate-400 dark:text-slate-500 text-xs">
+            <p>© 2026 'गालावरची खळी' - संघर्ष. सर्व हक्क राखीव.</p>
+            <p class="mt-1">Designed with ❤️ for Marathi Poetry Lovers</p>
+        </footer>
+
+    </div>
+
+    <!-- शेअरिंग मॉडेल (Custom Share & Quote Generator Modal) -->
+    <div id="shareModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 flex items-center justify-center opacity-0 pointer-events-none transition-all duration-300 px-4">
+        <div class="bg-white dark:bg-slate-900 rounded-3xl p-6 max-w-md w-full shadow-2xl border-2 border-rose-100 dark:border-romantic-900/60 transform scale-95 transition-transform duration-300" id="shareCardContent">
+            
+            <div class="flex justify-between items-center mb-4 border-b border-rose-50 pb-3 dark:border-romantic-950">
+                <h3 class="font-bold text-lg text-rose-600 dark:text-rose-400 flex items-center gap-2">
+                    <i class="fa-solid fa-magic animate-pulse"></i> सुंदर कोट्स कार्ड तयार करा
+                </h3>
+                <button onclick="closeShareModal()" class="text-slate-400 hover:text-rose-600 transition-colors">
+                    <i class="fa-solid fa-circle-xmark text-xl"></i>
+                </button>
+            </div>
+
+            <!-- कोट्स प्रिव्ह्यू क्षेत्र -->
+            <div class="border zari-border p-5 rounded-2xl text-center bg-gradient-to-br from-rose-50 to-amber-50 dark:from-slate-950 dark:to-romantic-950 mb-4 select-all shadow-inner relative" id="quotePreviewCard">
+                <p class="text-xs text-rose-500 dark:text-rose-400 tracking-widest uppercase font-semibold mb-3">|| गालावरची खळी ||</p>
+                <p id="shareQuoteText" class="text-lg md:text-xl font-marathi font-medium leading-relaxed text-slate-700 dark:text-slate-200">
+                    "ओठांवरती लाली तुझ्या, गालावरती खळी गं...<br>
+                    तू नुसती हसलीस तरी, इथं पाऊस थेंबा थेंबात नाचतोय गं!"
+                </p>
+                <p class="mt-4 text-sm font-semibold text-rose-500 dark:text-rose-400">— संघर्ष मगरे ✍️</p>
+            </div>
+
+            <!-- कोट्स निवडणे -->
+            <p class="text-[11px] text-slate-400 dark:text-slate-500 mb-3"><i class="fa-solid fa-circle-info"></i> खालील पर्यायातून तुमची आवडती ओळ निवडा:</p>
+            <div class="flex flex-col gap-2 max-h-[120px] overflow-y-auto mb-4 border border-rose-100/50 p-2 rounded-xl dark:border-romantic-900/30">
+                <button onclick="changeShareQuote(1)" class="text-xs text-left p-2 rounded bg-rose-50 dark:bg-slate-950 hover:bg-rose-100 dark:hover:bg-romantic-950 transition-colors border border-rose-100/40 text-slate-700 dark:text-slate-300">
+                    "ओठांवरती लाली तुझ्या..."
+                </button>
+                <button onclick="changeShareQuote(2)" class="text-xs text-left p-2 rounded bg-rose-50 dark:bg-slate-950 hover:bg-rose-100 dark:hover:bg-romantic-950 transition-colors border border-rose-100/40 text-slate-700 dark:text-slate-300">
+                    "पैंजणाची छुनछुन तुझी, काळजाची धडधड..."
+                </button>
+                <button onclick="changeShareQuote(3)" class="text-xs text-left p-2 rounded bg-rose-50 dark:bg-slate-950 hover:bg-rose-100 dark:hover:bg-romantic-950 transition-colors border border-rose-100/40 text-slate-700 dark:text-slate-300">
+                    "तुझी साधी पैठणी सुद्धा, काळजाला..."
+                </button>
+                <button onclick="changeShareQuote(4)" class="text-xs text-left p-2 rounded bg-rose-50 dark:bg-slate-950 hover:bg-rose-100 dark:hover:bg-romantic-950 transition-colors border border-rose-100/40 text-slate-700 dark:text-slate-300">
+                    "केसात माळलाय गजरा, की काळजाला..."
+                </button>
+            </div>
+
+            <!-- शेअर पर्याय -->
+            <div class="grid grid-cols-2 gap-2 mt-4">
+                <button onclick="copyPoemText()" class="px-4 py-2.5 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 transition-all">
+                    <i class="fa-solid fa-copy text-rose-500"></i> मजकूर कॉपी करा
+                </button>
+                <button onclick="shareOnWhatsApp()" class="px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 transition-all">
+                    <i class="fa-brands fa-whatsapp"></i> व्हॉट्सॲप
+                </button>
+            </div>
+            
+            <p id="shareStatusMessage" class="hidden text-center text-xs text-rose-500 mt-3 font-semibold"></p>
+        </div>
+    </div>
+
+    <!-- JavaScript कोड -->
+    <script>
+        // १. थीम आणि डार्क मोड व्यवस्थापन
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+            updateThemeIcon(true);
+        } else {
+            document.documentElement.classList.remove('dark');
+            updateThemeIcon(false);
+        }
+
+        function toggleDarkMode() {
+            const isDark = document.documentElement.classList.toggle('dark');
+            localStorage.theme = isDark ? 'dark' : 'light';
+            updateThemeIcon(isDark);
+        }
+
+        function updateThemeIcon(isDark) {
+            const icon = document.getElementById('themeIcon');
+            if (isDark) {
+                icon.className = 'fas fa-moon text-lg';
+            } else {
+                icon.className = 'fas fa-sun text-lg';
+            }
+        }
+
+        // २. ध्वनी प्रभाव व्यवस्थापन (Sound FX)
+        let soundEffectsEnabled = true;
+        function toggleSoundEffects() {
+            soundEffectsEnabled = !soundEffectsEnabled;
+            const btn = document.getElementById('soundToggleBtn');
+            const icon = document.getElementById('soundIcon');
+            if (soundEffectsEnabled) {
+                btn.className = "w-10 h-10 rounded-full bg-white dark:bg-slate-900 shadow-md hover:shadow-lg flex items-center justify-center text-rose-500 border border-rose-100 dark:border-romantic-900";
+                icon.className = "fas fa-bell text-lg";
+            } else {
+                btn.className = "w-10 h-10 rounded-full bg-slate-200 dark:bg-slate-800 shadow-inner flex items-center justify-center text-slate-400 border border-transparent";
+                icon.className = "fas fa-bell-slash text-lg";
+            }
+        }
+
+        // ३. वेब ऑडिओ सिंथेसायझर: पैंजणाची छुनछुन (Synthesized Anklet Sound Effects)
+        function playAnkletSound() {
+            if (!soundEffectsEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const now = ctx.currentTime;
+                for (let i = 0; i < 4; i++) {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(2500 + i * 700 + Math.random() * 300, now + i * 0.04);
+                    gain.gain.setValueAtTime(0.06, now + i * 0.04);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + i * 0.04 + 0.25);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now + i * 0.04);
+                    osc.stop(now + i * 0.04 + 0.3);
+                }
+            } catch (e) {
+                console.error("Audio Context Error: ", e);
+            }
+        }
+
+        // पावसाचा आवाज (Web Audio API Synthesized Rain Droplets)
+        function playRainSound() {
+            if (!soundEffectsEnabled) return;
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const now = ctx.currentTime;
+                // ६ जिवंत थेंबांचा आवाज एकत्र गुंफला आहे
+                for (let i = 0; i < 8; i++) {
+                    const osc = ctx.createOscillator();
+                    const gain = ctx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.setValueAtTime(1400 + Math.random() * 1000, now + i * 0.07);
+                    gain.gain.setValueAtTime(0.05, now + i * 0.07);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, now + i * 0.07 + 0.12);
+                    osc.connect(gain);
+                    gain.connect(ctx.destination);
+                    osc.start(now + i * 0.07);
+                    osc.stop(now + i * 0.07 + 0.15);
+                }
+            } catch (e) {
+                console.error("Rain Sound Error: ", e);
+            }
+        }
+
+        // ४. कणांचे कॅनव्हास अ‍ॅनिमेशन (Live Floating Particles)
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let heavyRainActive = false;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class FloatingParticle {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * canvas.height;
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.size = Math.random() * 8 + 4;
+                this.speedX = Math.random() * 0.6 - 0.3;
+                this.speedY = Math.random() * 0.5 + 0.2;
+                this.type = Math.floor(Math.random() * 4); // 0: petal, 1: jasmine, 2: gold sparkle, 3: raindrop
+                this.angle = Math.random() * Math.PI * 2;
+                this.spin = Math.random() * 0.02 - 0.01;
+            }
+            update() {
+                // पाऊस सक्रिय असल्यास गती वाढते
+                if (heavyRainActive && this.type === 3) {
+                    this.speedY = Math.random() * 8 + 6;
+                    this.speedX = -1; // वाऱ्याची दिशा
+                } else if (this.type === 3) {
+                    this.speedY = Math.random() * 2 + 1;
+                }
+
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.angle += this.spin;
+
+                if (this.y > canvas.height) {
+                    this.reset();
+                }
+                if (this.x > canvas.width || this.x < 0) {
+                    this.speedX *= -1;
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                if (this.type === 0) {
+                    // Rose Petal
+                    ctx.fillStyle = 'rgba(244, 63, 94, 0.45)';
+                    ctx.beginPath();
+                    ctx.ellipse(0, 0, this.size, this.size / 1.5, 0, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (this.type === 1) {
+                    // Jasmine (Gajra Flower)
+                    ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                    ctx.beginPath();
+                    for (let i = 0; i < 5; i++) {
+                        ctx.rotate(Math.PI / 2.5);
+                        ctx.ellipse(this.size / 2, 0, this.size / 3, this.size / 4, 0, 0, Math.PI * 2);
+                        ctx.fill();
+                    }
+                    ctx.fillStyle = 'rgba(253, 224, 71, 0.9)';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size / 4, 0, Math.PI * 2);
+                    ctx.fill();
+                } else if (this.type === 2) {
+                    // Gold Dust
+                    ctx.fillStyle = 'rgba(245, 158, 11, 0.6)';
+                    ctx.beginPath();
+                    ctx.arc(0, 0, this.size / 4, 0, Math.PI * 2);
+                    ctx.fill();
+                } else {
+                    // Raindrop
+                    ctx.strokeStyle = 'rgba(14, 165, 233, 0.4)';
+                    ctx.lineWidth = 1.5;
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(0, this.size * 1.5);
+                    ctx.stroke();
+                }
+                ctx.restore();
+            }
+        }
+
+        function initParticles() {
+            particles = [];
+            for (let i = 0; i < 45; i++) {
+                particles.push(new FloatingParticle());
+            }
+        }
+        initParticles();
+
+        function triggerHeavyRain(active) {
+            heavyRainActive = active;
+            // जास्त पाऊस झाल्यावर थेंबांचा वेग वाढतो
+            if (active) {
+                playRainSound();
+                for (let i = 0; i < 20; i++) {
+                    let p = new FloatingParticle();
+                    p.type = 3;
+                    particles.push(p);
+                }
+            } else {
+                particles = particles.slice(0, 45);
+            }
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        window.onload = function() {
+            animate();
+        };
+
+        // ५. डबल-टॅप लाईक यंत्रणा (Double-tap to like)
+        const poemContainer = document.getElementById('poemContainer');
+        const imgWrapper = document.getElementById('imageWrapper');
+        let lastTap = 0;
+        let likeCount = 812;
+        let liked = false;
+
+        [poemContainer, imgWrapper].forEach(element => {
+            element.addEventListener('touchstart', function(e) {
+                const currentTime = new Date().getTime();
+                const tapLength = currentTime - lastTap;
+                if (tapLength < 300 && tapLength > 0) {
+                    const touch = e.touches[0];
+                    triggerDoubleTapLike(touch.clientX, touch.clientY);
+                }
+                lastTap = currentTime;
+            });
+
+            element.addEventListener('dblclick', function(e) {
+                triggerDoubleTapLike(e.clientX, e.clientY);
+            });
+        });
+
+        function triggerDoubleTapLike(clientX, clientY) {
+            liked = true;
+            likeCount = liked ? 813 : 812;
+            updateLikeButton();
+            createHeartPop(clientX, clientY);
+            playAnkletSound();
+        }
+
+        function createHeartPop(clientX, clientY) {
+            const container = document.getElementById('heartContainer');
+            const rect = container.getBoundingClientRect();
+            const x = clientX - rect.left;
+            const y = clientY - rect.top;
+
+            const emojis = ['❤️', '✨', '🌹'];
+            for (let i = 0; i < 3; i++) {
+                const pop = document.createElement('div');
+                pop.className = 'heart-pop text-2xl md:text-3xl';
+                pop.innerText = emojis[i];
+                pop.style.left = `${x + (Math.random() * 40 - 20)}px`;
+                pop.style.top = `${y + (Math.random() * 40 - 20)}px`;
+                container.appendChild(pop);
+                setTimeout(() => pop.remove(), 1000);
+            }
+        }
+
+        function toggleLike() {
+            liked = !liked;
+            likeCount = liked ? 813 : 812;
+            updateLikeButton();
+            if (liked) playAnkletSound();
+        }
+
+        function updateLikeButton() {
+            const icon = document.getElementById('heartIcon');
+            const text = document.getElementById('likeText');
+            const badge = document.getElementById('likeCountBadge');
+
+            badge.innerText = likeCount;
+            if (liked) {
+                icon.innerHTML = '<i class="fa-solid fa-heart text-xl text-rose-600 scale-125 transition-transform"></i>';
+                text.innerText = "प्रेम व्यक्त केले (Liked)";
+            } else {
+                icon.innerHTML = '<i class="fa-solid fa-heart text-xl text-slate-400"></i>';
+                text.innerText = "आवडून गेलं (Like)";
+            }
+        }
+
+        // ६. AI आणि ब्राउझर मराठी काव्यवाचन (TTS)
+        let isReading = false;
+        let speechUtterance = null;
+        const poemLinesText = [
+            "ओठांवरती लाली तुझ्या, गालावरती खळी गं",
+            "पैंजणाची छुनछुन तुझी, काळजाची धडधड वाढवते,",
+            "तू रानातून चालताना, लाजते जणू उमलती कळी,",
+            "दूरून तू दिसली तरी, काळजाच पाणी पाणी होतय गं.",
+            "ओठांवरती लाली तुझ्या, गालावरती खळी गं",
+            "तुझी साधी पैठणी सुद्धा, काळजाला वेड लावते,",
+            "तुझ्या पदराचा वारा, मनाला गारवा देऊन जाते,",
+            "तू नुसती हसलीस तरी, इथं पाऊस थेंबा थेंबात नाचतोय गं.",
+            "ओठांवरती लाली तुझ्या, गालावरती खळी गं",
+            "केसात माळलाय गजरा, की काळजाला पडलाय वेढा,",
+            "नजरेचा बाण तुझा, काळजाच्या आरपार जातो,",
+            "तू नुसती वळून बघितलीस ना, की इथं वाघाचं पार मांजर होतोया गं.",
+            "ओठांवरती लाली तुझ्या, गालावरती खळी गं."
+        ];
+
+        function readPoem() {
+            if (isReading) {
+                stopReading();
+                return;
+            }
+            startReading();
+        }
+
+        function startReading() {
+            isReading = true;
+            const btnText = document.getElementById('voiceBtnText');
+            const icon = document.getElementById('voiceIcon');
+            btnText.innerText = "वाचन थांबवा";
+            icon.className = "fa-solid fa-circle-stop animate-spin";
+
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+                const fullText = poemLinesText.join(". ");
+                speechUtterance = new SpeechSynthesisUtterance(fullText);
+                speechUtterance.lang = 'mr-IN';
+                speechUtterance.rate = 0.85;
+
+                let currentLineIndex = 0;
+                const domLines = document.querySelectorAll('.poem-line');
+                
+                speechUtterance.onboundary = function(event) {
+                    if (event.name === 'sentence' || event.name === 'word') {
+                        domLines.forEach(l => l.classList.remove('active-line'));
+                        if (domLines[currentLineIndex]) {
+                            domLines[currentLineIndex].classList.add('active-line');
+                            if (currentLineIndex === 1) playAnkletSound();
+                            if (currentLineIndex === 3) playRainSound();
+                        }
+                    }
+                };
+
+                speechUtterance.onend = function() {
+                    stopReading();
+                };
+
+                speechUtterance.onerror = function() {
+                    stopReading();
+                };
+
+                let interval = setInterval(() => {
+                    if (!isReading) {
+                        clearInterval(interval);
+                        return;
+                    }
+                    domLines.forEach(l => l.classList.remove('active-line'));
+                    if (domLines[currentLineIndex]) {
+                        domLines[currentLineIndex].classList.add('active-line');
+                        if (currentLineIndex === 1) playAnkletSound();
+                        if (currentLineIndex === 3) playRainSound();
+                        currentLineIndex++;
+                    } else {
+                        clearInterval(interval);
+                    }
+                }, 4000);
+
+                window.speechSynthesis.speak(speechUtterance);
+            } else {
+                alert("तुमच्या ब्राउझरमध्ये मराठी भाषा वाचनाची क्षमता उपलब्ध नाही.");
+                stopReading();
+            }
+        }
+
+        function stopReading() {
+            isReading = false;
+            const btnText = document.getElementById('voiceBtnText');
+            const icon = document.getElementById('voiceIcon');
+            btnText.innerText = "कविता ऐका (AI)";
+            icon.className = "fa-solid fa-volume-high animate-pulse";
+            
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+            document.querySelectorAll('.poem-line').forEach(l => l.classList.remove('active-line'));
+        }
+
+        // ७. प्रतिक्रिया विभाग
+        const initialComments = [
+            { name: "प्रिया सरनाईक 🌸", text: "अतिशय देखणं वर्णन! पैंजणाची छुनछुन वाली कल्पना अप्रतिम आहे. ❤️", date: "२ मिनिटांपूर्वी" },
+            { name: "सागर शिंदे ✨", text: "वाघाचं मांजर होण्याची ओळ अस्सल मराठमोळी आणि भारी वाटली! 👌", date: "१० मिनिटांपूर्वी" },
+            { name: "वैष्णवी देशपांडे 🌹", text: "साध्या पैठणीच्या ओळीने मन जिंकलं. खूपच अप्रतिम लिहिलंय! 👏", date: "१ तास आधी" }
+        ];
+
+        function loadComments() {
+            let localComments = localStorage.getItem('marathi_comments_dimple');
+            if (!localComments) {
+                localStorage.setItem('marathi_comments_dimple', JSON.stringify(initialComments));
+                localComments = JSON.stringify(initialComments);
+            }
+            const comments = JSON.parse(localComments);
+            const wrapper = document.getElementById('commentsWrapper');
+            const countBadge = document.getElementById('commentCount');
+            
+            wrapper.innerHTML = '';
+            countBadge.innerText = comments.length;
+
+            comments.forEach(c => {
+                const div = document.createElement('div');
+                div.className = "p-4 rounded-2xl bg-rose-50/50 dark:bg-slate-950/40 border border-rose-100/30 dark:border-romantic-950 text-sm";
+                div.innerHTML = `
+                    <div class="flex justify-between items-center mb-1">
+                        <strong class="text-rose-600 dark:text-rose-400 font-marathi font-semibold">${c.name}</strong>
+                        <span class="text-[10px] text-slate-400">${c.date}</span>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-300 font-marathi leading-relaxed">${c.text}</p>
+                `;
+                wrapper.appendChild(div);
+            });
+        }
+        loadComments();
+
+        function handleComment(event) {
+            event.preventDefault();
+            const nameInput = document.getElementById('commenterName');
+            const textInput = document.getElementById('commentText');
+
+            const newComment = {
+                name: nameInput.value + " ✍️",
+                text: textInput.value,
+                date: "आत्ताच"
+            };
+
+            let localComments = JSON.parse(localStorage.getItem('marathi_comments_dimple') || '[]');
+            localComments.unshift(newComment);
+            localStorage.setItem('marathi_comments_dimple', JSON.stringify(localComments));
+
+            nameInput.value = '';
+            textInput.value = '';
+            loadComments();
+            playAnkletSound();
+        }
+
+        function insertEmoji(emoji) {
+            const textInput = document.getElementById('commentText');
+            textInput.value += emoji;
+            textInput.focus();
+        }
+
+        // ८. शेअरिंग मॉडेल आणि कोट्स निर्मिती
+        const quoteOptions = {
+            1: "ओठांवरती लाली तुझ्या, गालावरती खळी गं...<br>तुझी साधी पैठणी सुद्धा, काळजाला वेड लावते!",
+            2: "पैंजणाची छुनछुन तुझी, काळजाची धडधड वाढवते,<br>तू रानातून चालताना, लाजते जणू उमलती कळी!",
+            3: "तुझी साधी पैठणी सुद्धा, काळजाला वेड लावते,<br>तू नुसती हसलीस तरी, इथं पाऊस थेंबा थेंबात नाचतोय गं!",
+            4: "केसात माळलाय गजरा, की काळजाला पडलाय वेढा,<br>तू नुसती वळून बघितलीस ना, की इथं वाघाचं पार मांजर होतोया!"
+        };
+
+        function openShareModal() {
+            const modal = document.getElementById('shareModal');
+            const card = document.getElementById('shareCardContent');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            card.classList.remove('scale-95');
+            card.classList.add('scale-100');
+        }
+
+        function closeShareModal() {
+            const modal = document.getElementById('shareModal');
+            const card = document.getElementById('shareCardContent');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            card.classList.add('scale-95');
+            card.classList.remove('scale-100');
+            document.getElementById('shareStatusMessage').classList.add('hidden');
+        }
+
+        function changeShareQuote(id) {
+            const shareTextDiv = document.getElementById('shareQuoteText');
+            shareTextDiv.innerHTML = quoteOptions[id];
+            if (id === 3) {
+                playRainSound();
+            } else {
+                playAnkletSound();
+            }
+        }
+
+        function copyPoemText() {
+            const rawText = document.getElementById('shareQuoteText').innerText;
+            const signature = "\n— संघर्ष मगरे ✍️\nअधिक वाचनासाठी भेट द्या: https://mh20vlogger.blogspot.com";
+            
+            const el = document.createElement('textarea');
+            el.value = `"${rawText}"` + signature;
+            document.body.appendChild(el);
+            el.select();
+            document.execCommand('copy');
+            document.body.removeChild(el);
+
+            const msg = document.getElementById('shareStatusMessage');
+            msg.innerText = "मजकूर यशस्वीरित्या कॉपी झाला! सामायिक करा. 🌹";
+            msg.classList.remove('hidden');
+        }
+
+        function shareOnWhatsApp() {
+            const rawText = document.getElementById('shareQuoteText').innerText;
+            const message = encodeURIComponent(`*"गालावरची खळी"* - संघर्ष मगरे ✍️\n\n"${rawText}"\n\nसंपूर्ण कविता वाचण्यासाठी आणि ऐकण्यासाठी या लिंकला भेट द्या! ✨`);
+            window.open(`https://api.whatsapp.com/send?text=${message}`);
+        }
+    </script>
+</body>
+</html>
